@@ -1,10 +1,10 @@
 use std::{fs::File, io::Read};
 
 fn main() {
-    check_puzzle();
+    check_puzzle_part1();
 }
 
-fn check_puzzle() {
+fn check_puzzle_part1() {
     let mut file = match File::open("puzzle.txt") {
         Ok(f) => f,
         Err(e) => panic!("could not open file : {e}")
@@ -43,9 +43,10 @@ fn check_puzzle() {
             let a = v1[k - 1];
             let b = v1[k];
             let c = v1[np1];
-            let res = (b - c).abs();
+            let res_ab = (a - b).abs();
+            let res_bc = (b - c).abs();
 
-            is_safe = is_safe & ((res.abs() <= 3) && res.abs() != 0);
+            is_safe = is_safe & (res_ab.abs() >= 1 && res_ab.abs() <= 3 && res_bc.abs() <= 3 && res_bc.abs() >= 1) && (res_ab.abs() != 0) && (res_bc != 0);
 
             if a < b && b > c {
                 is_safe = false;
