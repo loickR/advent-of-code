@@ -5,7 +5,6 @@ fn main() {
 }
 
 fn _check_puzzle_day2_part2() {
-
 }
 
 fn check_puzzle_day2_part1() {
