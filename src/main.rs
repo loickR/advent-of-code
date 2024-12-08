@@ -15,6 +15,56 @@ fn check_puzzle() {
         Ok(_) => println!("file read"),
         Err(e) => println!("{e}")
     };
+
+    let res1 = contents.lines()
+            .map(|l| l.split_ascii_whitespace())
+            .enumerate();
+
+    let mut v1 : Vec<i64> = Vec::new();
+    let mut safe_report_count = 0;
+    for (i, val) in res1 {
+        print!("Ligne {i} - ");
+        for (_j, v) in val.enumerate() {
+            let a = v.parse::<i64>().unwrap();
+            v1.push(a);
+        }
+
+        let mut is_safe = true;
+        for (k, _value) in v1.iter().enumerate() {
+
+            let np1 = k + 1;
+            let nm1 = k as i32 - 1;
+            if np1 >= v1.len() {
+                break;
+            } else if nm1 < 0 {
+                continue;
+            }
+
+            let a = v1[k - 1];
+            let b = v1[k];
+            let c = v1[np1];
+            let res = (b - c).abs();
+
+            is_safe = is_safe & ((res.abs() <= 3) && res.abs() != 0);
+
+            if a < b && b > c {
+                is_safe = false;
+            } else if a > b && b < c {
+                is_safe = false;
+            }
+        }
+
+        if is_safe {
+            println!("Safe");
+            safe_report_count = safe_report_count + 1;
+        } else {
+            println!("Unsafe")
+        }
+
+        v1.clear();
+    }
+
+    println!("{safe_report_count} reports are safe");
 }
 
 fn _check_list_1() {
